@@ -5,7 +5,7 @@ metadata:
   name: {{ include "common.fullname" . }}
   namespace: apps
 spec:
-  ingressClassName: kong
+  ingressClassName: {{ .Values.ingress.className | default "kong" }}
   rules:
   - host: {{ .Values.ingress.host | quote }}
     http:

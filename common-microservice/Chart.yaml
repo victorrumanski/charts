@@ -2,4 +2,4 @@ apiVersion: v2
 name: common-microservice
 description: A library chart for all our microservices
 type: application
-version: 1.0.0
+version: 1.0.1
