@@ -1,4 +1,4 @@
-name: Publish Helm Charts
+name: Publish Helm Charts so argo updates
 
 on:
   push:
