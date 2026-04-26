@@ -17,6 +17,7 @@ env:
   dbHost: ""
   dbName: ""
   dbUser: ""
+  dbSchema: ""
   kafkaHost: ""
 
 secrets:
