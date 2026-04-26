@@ -24,7 +24,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{
           github.actor }} --password-stdin
 
-      - name: Package and Push Charts
+      - name: Package and Push Charts go
         run: |
           echo "Processing common-microservice"
           helm package common-microservice
