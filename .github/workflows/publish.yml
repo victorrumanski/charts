@@ -29,5 +29,5 @@ jobs:
           OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           echo "Processing common-microservice"
           helm package common-microservice
-          helm push *.tgz oci://ghcr.io/$OWNER_LOWER/charts
+          helm push *.tgz oci://ghcr.io/$OWNER_LOWER
           rm *.tgz
