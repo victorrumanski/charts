@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ include "common.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "common.name" . }}
+    spec:
+      containers:
+      - name: app
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | default "Always" }}
+        ports:
+        - containerPort: {{ .Values.service.targetPort | default 8080 }}
+        env:
+        - name: DB_HOST
+          value: {{ .Values.env.dbHost | quote }}
+        - name: DB_NAME
+          value: {{ .Values.env.dbName | quote }}
+        - name: DB_USER
+          value: {{ .Values.env.dbUser | quote }}
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.name | default "app-secrets" }}
+              key: {{ .Values.secrets.dbPasswordKey | default "db-password" }}
+        - name: KAFKA_HOST
+          value: {{ .Values.env.kafkaHost | quote }}
+        - name: KAFKA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.name | default "app-secrets" }}
+              key: {{ .Values.secrets.kafkaPasswordKey | default "kafka-password" }}
+        {{- if .Values.probes.enabled }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.probes.path | default "/actuator/health" }}
+            port: {{ .Values.service.targetPort | default 8080 }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.probes.path | default "/actuator/health" }}
+            port: {{ .Values.service.targetPort | default 8080 }}
+        {{- end }}

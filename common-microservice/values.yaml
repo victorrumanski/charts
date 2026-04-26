@@ -1,0 +1,33 @@
+# Default values for the Library Chart
+# These ensure that if a microservice forgets a value, the template doesn't crash.
+
+replicaCount: 1
+
+image:
+  repository: placeholder
+  tag: latest
+  pullPolicy: Always
+
+service:
+  port: 80
+  targetPort: 8080
+  type: ClusterIP
+
+env:
+  dbHost: ""
+  dbName: ""
+  dbUser: ""
+  kafkaHost: ""
+
+secrets:
+  name: app-secrets
+  dbPasswordKey: db-password
+  kafkaPasswordKey: kafka-password
+
+probes:
+  enabled: true
+  path: /actuator/health
+
+ingress:
+  enabled: false
+  host: ""
